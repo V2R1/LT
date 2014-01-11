@@ -41,6 +41,18 @@
         rotation: Math.PI / 4
     });
 
+    var texture = graphicsDevice.createTexture({
+        src: "assets/textures/particle_spark.png",
+        mipmaps: true,
+        onload: function (texture) {
+            "use strict";
+            if (texture) {
+                sprite.setTexture(texture);
+                sprite.setTextureRectangle([0, 0, texture.width, texture.height]);
+            }
+        }
+    });
+
     var PI2 = Math.PI * 2;
     var rotateAngle = Math.PI / 64;
 
@@ -52,8 +64,12 @@
         sprite.rotation %= PI2;
         if (graphicsDevice.beginFrame()) {
             graphicsDevice.clear(bgColor, 1.0);
+
             draw2D.begin();
             draw2D.draw(drawObject);
+            draw2D.end();
+
+            draw2D.begin('additive');
             draw2D.drawSprite(sprite);
             draw2D.end();
             graphicsDevice.endFrame();
